@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 // import { bindActionCreators } from "redux";
 import { withBookstoreService } from "../hoc";
 import { booksLoaded } from "../../actions";
-import { compose } from "../../utils";
 
 class BookList extends Component {
   componentDidMount() {
@@ -67,10 +66,6 @@ const mapStateToProps = (state) => {
 // ВАРИАНТ 4
 const mapDispatchToProps = { booksLoaded }; // здесь мы используем объект вместо функции, чтобы автоматически обернуть action creator в dispatch и возвращаем объект с action creator в качестве свойств (в данном случае один action creator) и redux сам все сделает за нас (примерно как вариант 3)
 
-// export default withBookstoreService()(
-//   connect(mapStateToProps, mapDispatchToProps)(BookList)
-// );
-
-export default compose(
-  withBookstoreService()(connect(mapStateToProps, mapDispatchToProps))(BookList)
-); // ??? используем compose ТИПА для удобства и читаемости кода ???
+export default withBookstoreService()(
+  connect(mapStateToProps, mapDispatchToProps)(BookList)
+);
