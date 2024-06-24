@@ -11,6 +11,11 @@ export default class BookstoreService {
         title: "Release It!",
         author: "Michael T. Nygard",
       },
+      {
+        id: 3,
+        title: "React Quickly",
+        author: "Azat Mardan",
+      },
     ];
   }
 }
