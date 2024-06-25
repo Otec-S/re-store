@@ -5,18 +5,24 @@ import { connect } from "react-redux";
 // import { bindActionCreators } from "redux";
 import { withBookstoreService } from "../hoc";
 import { booksLoaded } from "../../actions";
+import Spinner from "../spinner";
 
 class BookList extends Component {
   componentDidMount() {
-    const { bookstoreService } = this.props;
-    const data = bookstoreService.getBooks();
-    console.log(data); // мы получили данные из сервиса и можем их использовать в приложении
-
-    this.props.booksLoaded(data);
+    // получение данных из сервиса
+    const { bookstoreService, booksLoaded } = this.props;
+    bookstoreService.getBooks().then((data) => booksLoaded(data)); // вызов action creator с данными из сервиса (полученными в результате работы промиса) в качестве аргумента (в данном случае массив книг) и передача action в redux store через mapDispatchToProps (в данном случае через booksLoaded) для обновления state в redux store (в данном случае обновление массива книг в state.books) и перерисовки компонента (в данном случае перерисовка списка книг) с новыми данными (в данном случае с данными из сервиса)
   }
 
   render() {
-    const { books } = this.props;
+    const { books, loading } = this.props;
+    if (loading) {
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
+    }
     return (
       <ul className="book-list">
         {books.map((book) => {
@@ -34,6 +40,7 @@ class BookList extends Component {
 const mapStateToProps = (state) => {
   return {
     books: state.books,
+    loading: state.loading,
   };
 };
 
