@@ -4,7 +4,7 @@ import BookListItem from "../book-list-item";
 import { connect } from "react-redux";
 // import { bindActionCreators } from "redux";
 import { withBookstoreService } from "../hoc";
-import { booksLoaded, booksRequested, booksError } from "../../actions";
+import { fetchBooks } from "../../actions";
 import Spinner from "../spinner";
 import ErrorIndicator from "../error-indicator";
 
@@ -90,13 +90,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { bookstoreService } = ownProps;
   return {
-    fetchBooks: () => {
-      dispatch(booksRequested());
-      bookstoreService
-        .getBooks()
-        .then((data) => dispatch(booksLoaded(data)))
-        .catch((err) => dispatch(booksError(err)));
-    },
+    fetchBooks: fetchBooks(bookstoreService, dispatch),
   };
 }; // здесь мы используем функцию вместо объекта, чтобы получить доступ к ownProps (в данном случае к bookstoreService) и передать его в mapDispatchToProps
 
